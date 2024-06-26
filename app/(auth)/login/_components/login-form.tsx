@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 
@@ -13,8 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+
 import { Loader2 } from "lucide-react";
+import { login } from "@/actions/login";
 
 const FormSchema = z.object({
   email: z.string().trim().email(),
@@ -29,14 +31,18 @@ export const LoginForm = () => {
       password: "",
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  const onSubmit: SubmitHandler<FieldValues> = (values) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  const onSubmit = (values: z.infer<typeof FormSchema>) => {
     console.log("submit", values);
+
+    startTransition(() => {
+      login(values)
+        .then((response) => {
+          console.log("login", response);
+        })
+        .catch(() => console.log("error"));
+    });
   };
 
   return (
@@ -57,7 +63,7 @@ export const LoginForm = () => {
                         {...field}
                         type="email"
                         placeholder="이메일을 입력해주세요"
-                        disabled={isLoading}
+                        disabled={isPending}
                       />
                     </FormControl>
                   </FormItem>
@@ -73,7 +79,7 @@ export const LoginForm = () => {
                       <Input
                         type="password"
                         placeholder="비밀번호를 입력해주세요"
-                        disabled={isLoading}
+                        disabled={isPending}
                         {...field}
                       />
                     </FormControl>
@@ -81,8 +87,8 @@ export const LoginForm = () => {
                 )}
               />
             </div>
-            <Button className="my-8 w-full" disabled={isLoading}>
-              {isLoading && <Loader2 className="mr-2 size-5 animate-spin" />}
+            <Button className="my-8 w-full" disabled={isPending}>
+              {isPending && <Loader2 className="mr-2 size-5 animate-spin" />}
               로그인
             </Button>
           </form>

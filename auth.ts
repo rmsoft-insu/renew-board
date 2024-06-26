@@ -6,12 +6,12 @@ import Credentials from "next-auth/providers/credentials";
 import { db } from "@/lib/db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
-const LoginSchema = z.object({
+export const LoginSchema = z.object({
   email: z.string().email({ message: "Email is Required" }),
   password: z.string().min(1, { message: "Password is Required" }),
 });
 
-const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string) => {
   try {
     const user = await db.user.findUnique({ where: { email } });
     return user;
