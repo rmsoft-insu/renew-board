@@ -1,4 +1,3 @@
-import { FormTestComponent } from "@/components/form-test";
 import Link from "next/link";
 
 export default function Home() {

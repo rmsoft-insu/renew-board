@@ -41,7 +41,7 @@ export const UserRegisterForm = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-    /*  axios
+    axios
       .post("/api/register", values)
       .then(() => {
         console.log("Success");
@@ -51,7 +51,7 @@ export const UserRegisterForm = () => {
       })
       .finally(() => {
         console.log("Done");
-      }); */
+      });
   };
 
   return (
