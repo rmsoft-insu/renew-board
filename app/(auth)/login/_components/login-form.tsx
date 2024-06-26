@@ -1,9 +1,9 @@
 "use client";
 
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 
 import {
   Form,
@@ -41,7 +41,7 @@ export const LoginForm = () => {
         .then((response) => {
           console.log("login", response);
         })
-        .catch(() => console.log("error"));
+        .catch((error) => console.log("error", error));
     });
   };
 

@@ -41,10 +41,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  debug: process.env.NODE_ENV === "development",
   pages: {
     signIn: "/",
   },
-  debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
   },
