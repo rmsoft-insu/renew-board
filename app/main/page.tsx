@@ -1,8 +1,11 @@
+import { SessionProvider } from "next-auth/react";
+import { MainComponent } from "./_components/main";
+
 const MainPage = () => {
   return (
-    <>
-      <div>Main Page</div>
-    </>
+    <SessionProvider>
+      <MainComponent />
+    </SessionProvider>
   );
 };
 

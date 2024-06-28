@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import Link from "next/link";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -18,25 +18,29 @@ import { Input } from "@/components/ui/input";
 
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
-const FormSchema = z.object({
-  email: z.string().trim().email(),
-  password: z.string().trim().min(1),
-});
+import { signin } from "@/actions/signin";
+import { LoginSchema } from "@/schemas";
 
 export const SignInForm = () => {
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
 
   const form = useForm({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    startTransition(() => {});
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    startTransition(() => {
+      signin(values).then((data) => {
+        setError(data?.error);
+        console.log("error", data?.error);
+      });
+    });
   };
 
   return (
