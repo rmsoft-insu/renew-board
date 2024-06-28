@@ -16,7 +16,7 @@ export const signin = async (values: z.infer<typeof LoginSchema>) => {
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: "Email does not exist" };
+    return { error: "등록된 이메일이 아닙니다." };
   }
 
   try {

@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { signin } from "@/actions/signin";
 
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   email: z.string().trim().email(),
@@ -37,7 +38,10 @@ export const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
     startTransition(() => {
-      signin(values);
+      signin(values).catch((error) => {
+        console.log("error", error);
+        toast.error(error, { id: "login" });
+      });
     });
   };
 
