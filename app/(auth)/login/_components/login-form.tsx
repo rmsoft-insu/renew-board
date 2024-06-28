@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import Link from "next/link";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,10 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { signin } from "@/actions/signin";
 
 import { Loader2 } from "lucide-react";
-import { login } from "@/actions/login";
-import Link from "next/link";
 
 const FormSchema = z.object({
   email: z.string().trim().email(),
@@ -25,6 +25,8 @@ const FormSchema = z.object({
 });
 
 export const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -32,17 +34,10 @@ export const LoginForm = () => {
       password: "",
     },
   });
-  const [isPending, startTransition] = useTransition();
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log("submit", values);
-
     startTransition(() => {
-      login(values)
-        .then((response) => {
-          console.log("login", response);
-        })
-        .catch((error) => console.log("error", error));
+      signin(values);
     });
   };
 
