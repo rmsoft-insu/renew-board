@@ -37,8 +37,7 @@ export const SignInForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
       signin(values).then((data) => {
-        setError(data?.error);
-        console.log("error", data?.error);
+        toast.error(data?.error, { id: "login" });
       });
     });
   };
