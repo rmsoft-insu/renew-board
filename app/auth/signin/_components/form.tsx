@@ -23,8 +23,6 @@ import { LoginSchema } from "@/schemas";
 
 export const SignInForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -35,6 +33,11 @@ export const SignInForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    /*  signIn("credentials", {
+      redirectTo: "/",
+      email: values.email,
+      password: values.password,
+    }); */
     startTransition(() => {
       signin(values).then((data) => {
         toast.error(data?.error, { id: "login" });
