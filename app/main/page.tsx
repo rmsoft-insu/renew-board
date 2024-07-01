@@ -1,6 +1,6 @@
 import { MainComponent } from "./_components/main";
 
-const MainPage = () => {
+const MainPage = async () => {
   return (
     <>
       <MainComponent />

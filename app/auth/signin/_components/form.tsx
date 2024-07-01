@@ -33,14 +33,10 @@ export const SignInForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    /*  signIn("credentials", {
-      redirectTo: "/",
-      email: values.email,
-      password: values.password,
-    }); */
     startTransition(() => {
       signin(values).then((data) => {
-        toast.error(data?.error, { id: "login" });
+        console.log("data", data);
+        toast.error(data?.error || "로그인에 실패했습니다.", { id: "login" });
       });
     });
   };
