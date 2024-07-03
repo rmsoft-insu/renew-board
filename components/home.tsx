@@ -1,10 +1,26 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-export const LoggedInComponent = () => {
+import { Session } from "next-auth";
+
+export const LoggedInComponent = ({ session }: { session: Session }) => {
+  const { user } = session;
+
   return (
     <>
-      <div>Logged In</div>
+      <div>
+        <div className="rounded-md bg-white p-4">
+          <h1 className="mb-2 text-xl font-bold">로그인 정보</h1>
+          <div className="flex gap-2">
+            <span>이메일</span>
+            <span>{user?.email}</span>
+          </div>
+          <div className="flex gap-2">
+            <span>이름</span>
+            <span>{user?.name}</span>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
